@@ -19,7 +19,7 @@ const Modal = ({ open, onClose, title, children }) => {
         boxShadow: 24,
         p: 4,
       }}>
-        <Typography id="modal-title" variant="h6" component="h2">
+        <Typography id="modal-title" variant="h6" component="h2" style={{ textAlign: 'center' }}>
           {title}
         </Typography>
         <Typography id="modal-description" sx={{ mt: 2 }}>

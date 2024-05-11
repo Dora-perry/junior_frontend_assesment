@@ -8,6 +8,7 @@ import {
   MenuItem,
   Typography,
   Grid,
+  Box,
 } from "@mui/material";
 import { deleteHotel } from "../features/hotelsSlice";
 import { editHotel } from "../features/hotelsSlice";
@@ -15,6 +16,7 @@ import { addHotel } from "../features/hotelsSlice";
 import HotelForm from "./HotelForm";
 import HotelCard from "./HotelCard";
 import Modal from "./Modal";
+import emptyData from "../assets/images/empty data.jpeg";
 
 function HotelList() {
   const dispatch = useDispatch();
@@ -102,12 +104,37 @@ function HotelList() {
             filteredHotels.map((hotel) => (
               <Grid item xs={12} sm={6} md={4} key={hotel.id}>
                 <HotelCard
-                  onEdit={() => handleEdit(hotel)}
                   hotel={hotel}
+                  onEdit={() => handleEdit(hotel)}
                   onDelete={() => handleDelete(hotel.id)}
                 />
               </Grid>
             ))
+          ) : selectedCategory ? (
+            <Grid item xs={12}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <img
+                  src={emptyData}
+                  alt="No data"
+                  style={{ width: 200, marginBottom: 8 }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    textAlign: "center",
+                    color: "gray",
+                    marginTop: "50px",
+                  }}
+                >
+                  No hotels found in the selected category.
+                </Typography>
+              </Box>
+            </Grid>
           ) : (
             <Grid item xs={12}>
               <Typography
