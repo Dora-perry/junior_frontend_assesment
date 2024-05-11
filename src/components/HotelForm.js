@@ -71,12 +71,12 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="name"
             fullWidth
+            required
           />
         </Grid>
-
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel>Country</InputLabel>
+            <InputLabel id="country">Country</InputLabel>
             <Select
               open={open}
               onOpen={handleOpen}
@@ -84,6 +84,10 @@ function HotelForm({ onSave, initialHotelData = {} }) {
               value={hotelData.country}
               onChange={handleInputChange}
               name="country"
+              label="Country"
+              labelId="country"
+              id="country"
+              required
             >
               {countries.map((country, index) => (
                 <MenuItem key={index} value={country}>
@@ -101,19 +105,21 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="address"
             fullWidth
+            required
           />
         </Grid>
 
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel>Category</InputLabel>
+            <InputLabel id="categ">Category</InputLabel>
             <Select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
+              label="Category"
+              labelId="categ"
+              id="categ"
+              required
             >
-              <MenuItem value="">
-                <em>All</em>
-              </MenuItem>
               {categories.map((category) => (
                 <MenuItem key={category.id} value={category.name}>
                   {category.name}
@@ -130,6 +136,8 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             variant="contained"
             fullWidth={{ xs: true, sm: false, md: false, lg: false }}
             sx={{ width: { sm: "auto", md: "auto" } }}
+            size="lg"
+            
           >
             {buttonText}
           </Button>

@@ -2,11 +2,9 @@ import React from "react";
 import { Container, Typography } from "@mui/material";
 import HotelList from "./components/HotelList.js";
 
-
 const App = () => {
-
   return (
-    <Container maxWidth="lg">
+    <main>
       <Typography
         variant="h4"
         sx={{
@@ -18,8 +16,10 @@ const App = () => {
       >
         Hotel Ranking
       </Typography>
-      <HotelList />
-    </Container>
+      <Container maxWidth="lg">
+        <HotelList />
+      </Container>
+    </main>
   );
 };
 

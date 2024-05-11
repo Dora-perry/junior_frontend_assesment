@@ -16,8 +16,9 @@ import { addHotel } from "../features/hotelsSlice";
 import HotelForm from "./HotelForm";
 import HotelCard from "./HotelCard";
 import Modal from "./Modal";
-import emptyData from "../assets/images/empty data.jpeg";
+import emptyData from "../assets/images/empty.png";
 import { Snackbar, Alert } from "@mui/material";
+import fitting from '../assets/images/undraw_Fitting.png'
 
 function HotelList() {
   const dispatch = useDispatch();
@@ -77,41 +78,47 @@ function HotelList() {
 
   return (
     <>
-      <Grid
-        container
-        spacing={3}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Grid item xs={12} sm={6} md={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleOpenAddModal}
-            style={{ margin: "20px 0" }}
-          >
-            Add Hotel
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormControl fullWidth>
-            <InputLabel>Filter by Category</InputLabel>
-            <Select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+      {hotels.length > 0 && (
+        <Grid
+          container
+          spacing={3}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item xs={12} sm={6} md={4}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenAddModal}
+              style={{ margin: "20px 0" }}
+              size="large"
             >
-              <MenuItem value="">
-                <em>All</em>
-              </MenuItem>
-              {categories.map((category, index) => (
-                <MenuItem key={index} value={category.name}>
-                  {category.name}
+              Add Hotel
+            </Button>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormControl fullWidth>
+              <InputLabel id="categ">Filter by Category</InputLabel>
+              <Select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                label="Filter by Category"
+                labelId="categ"
+                id="categ"
+              >
+                <MenuItem value="">
+                  <em>All</em>
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+                {categories.map((category, index) => (
+                  <MenuItem key={index} value={category.name}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
 
       <div style={{ padding: "20px" }}>
         <Grid container spacing={3}>
@@ -151,13 +158,32 @@ function HotelList() {
               </Box>
             </Grid>
           ) : (
-            <Grid item xs={12}>
+            <Grid item xs={12} sx={{ textAlign: "center",}}>
+              <img
+                  src={fitting}
+                  alt="No data"
+                  style={{ width: 200, marginBottom: 8 }}
+                />
               <Typography
                 variant="h6"
-                style={{ textAlign: "center", color: "red", marginTop: "50px" }}
+                style={{
+                 
+                  color: "gray",
+                  marginTop: "10px",
+
+                }}
               >
                 No hotels available. Please add a new hotel.
               </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleOpenAddModal}
+              style={{ margin: "20px 0" }}
+              size="large"
+            >
+              Add Hotel
+            </Button>
             </Grid>
           )}
         </Grid>
