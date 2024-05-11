@@ -116,7 +116,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
               
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>All</em>
               </MenuItem>
               {categories.map((category) => (
                 <MenuItem key={category.id} value={category.name}>

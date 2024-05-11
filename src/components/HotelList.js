@@ -17,6 +17,7 @@ import HotelForm from "./HotelForm";
 import HotelCard from "./HotelCard";
 import Modal from "./Modal";
 import emptyData from "../assets/images/empty data.jpeg";
+import { Snackbar, Alert } from "@mui/material";
 
 function HotelList() {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ function HotelList() {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [currentHotel, setCurrentHotel] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const filteredHotels = selectedCategory
     ? hotels.filter((hotel) => hotel.category === selectedCategory)
@@ -39,11 +42,13 @@ function HotelList() {
 
   const handleSaveEdit = (hotelData) => {
     dispatch(editHotel(hotelData));
+    handleSnackbarOpen("Hotel updated successfully!");
     setEditModalOpen(false);
   };
 
   const handleDelete = (id) => {
     dispatch(deleteHotel(id));
+    handleSnackbarOpen("Hotel deleted successfully!");
   };
   const handleOpenAddModal = () => {
     setCurrentHotel({
@@ -57,7 +62,17 @@ function HotelList() {
   };
   const handleSaveNewHotel = (hotelData) => {
     dispatch(addHotel(hotelData));
+    handleSnackbarOpen("Hotel created successfully!");
     setAddModalOpen(false);
+  };
+
+  const handleSnackbarOpen = (message) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   return (
@@ -86,7 +101,7 @@ function HotelList() {
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <MenuItem value="">
-                <em>None</em>
+                <em>All</em>
               </MenuItem>
               {categories.map((category, index) => (
                 <MenuItem key={index} value={category.name}>
@@ -167,6 +182,19 @@ function HotelList() {
       >
         <HotelForm onSave={handleSaveNewHotel} initialHotelData={{}} />
       </Modal>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
