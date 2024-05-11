@@ -8,7 +8,7 @@ import {
   MenuItem,
   Typography,
   Grid,
-} from "@material-ui/core";
+} from "@mui/material";
 import { deleteHotel } from "../features/hotelsSlice";
 import { editHotel } from "../features/hotelsSlice";
 import { addHotel } from "../features/hotelsSlice";

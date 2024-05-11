@@ -1,22 +1,21 @@
 import React from "react";
-import { Container, Typography } from "@material-ui/core";
+import { Container, Typography } from "@mui/material";
 import HotelList from "./components/HotelList.js";
-import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    textAlign: "center",
-    backgroundColor: "#f0f0f0",
-    padding: theme.spacing(2),
-    marginBottom: theme.spacing(8),
-  },
-}));
 
 const App = () => {
-  const classes = useStyles();
+
   return (
     <Container maxWidth="lg">
-      <Typography variant="h4" className={classes.title}>
+      <Typography
+        variant="h4"
+        sx={{
+          textAlign: "center",
+          backgroundColor: "#f0f0f0",
+          padding: 2,
+          marginBottom: 8,
+        }}
+      >
         Hotel Ranking
       </Typography>
       <HotelList />

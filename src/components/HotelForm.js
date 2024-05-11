@@ -6,7 +6,8 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
-} from "@material-ui/core";
+  Grid,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { fetchCountries } from "../api/fetchCountries";
 
@@ -61,65 +62,72 @@ function HotelForm({ onSave, initialHotelData = {} }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextField
-        label="Hotel Name"
-        value={hotelData.name}
-        onChange={handleInputChange}
-        name="name"
-        fullWidth
-      />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            label="Hotel Name"
+            value={hotelData.name}
+            onChange={handleInputChange}
+            name="name"
+            fullWidth
+          />
+        </Grid>
 
-      <FormControl fullWidth>
-        <InputLabel>Country</InputLabel>
-        <Select
-          open={open}
-          onOpen={handleOpen}
-          onClose={() => setOpen(false)}
-          value={hotelData.country}
-          onChange={handleInputChange}
-          name="country"
-        >
-          {countries.map((country, index) => (
-            <MenuItem key={index} value={country}>
-              {country}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Country</InputLabel>
+            <Select
+              open={open}
+              onOpen={handleOpen}
+              onClose={() => setOpen(false)}
+              value={hotelData.country}
+              onChange={handleInputChange}
+              name="country"
+            >
+              {countries.map((country, index) => (
+                <MenuItem key={index} value={country}>
+                  {country}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
 
-      <TextField
-        label="Address"
-        value={hotelData.address}
-        onChange={handleInputChange}
-        name="address"
-        fullWidth
-      />
+        <Grid item xs={12}>
+          <TextField
+            label="Address"
+            value={hotelData.address}
+            onChange={handleInputChange}
+            name="address"
+            fullWidth
+          />
+        </Grid>
 
-      <FormControl fullWidth>
-        <InputLabel>Category</InputLabel>
-        <Select
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          {categories.map((category) => (
-            <MenuItem key={category.id} value={category.name}>
-              {category.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <Grid item xs={12}>
+          <FormControl fullWidth>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category.id} value={category.name}>
+                  {category.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
 
-      <Button
-        type="submit"
-        color="primary"
-        variant="contained"
-        style={{ marginTop: 25, float: "right" }}
-      >
-        {buttonText}
-      </Button>
+        <Grid item xs={12} textAlign="right">
+          <Button type="submit" color="primary" variant="contained">
+            {buttonText}
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }

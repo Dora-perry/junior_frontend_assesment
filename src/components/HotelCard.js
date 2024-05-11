@@ -4,7 +4,7 @@ import {
   CardActions,
   Button,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 
 const HotelCard = ({ hotel, onEdit, onDelete }) => {
   return (
