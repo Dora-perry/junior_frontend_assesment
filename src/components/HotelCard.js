@@ -11,13 +11,13 @@ const HotelCard = ({ hotel, onEdit, onDelete }) => {
     <Card raised>
       <CardContent>
         <Typography variant="h5" component="h2">
-          {hotel.name}
+         Name:  {hotel.name}
         </Typography>
-        <Typography color="textSecondary">{hotel.country}</Typography>
+        <Typography color="textSecondary">Country: {hotel.country}</Typography>
         <Typography variant="body2" component="p">
-          {hotel.address}
+          Address: {hotel.address}
           <br />
-          {hotel.category}
+          Category: {hotel.category}
         </Typography>
       </CardContent>
       <CardActions style={{ justifyContent: "space-between" }}>

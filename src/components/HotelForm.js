@@ -47,6 +47,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const updatedHotelData = {
       ...hotelData,
       id: initialHotelData.id,
@@ -70,6 +71,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="name"
             fullWidth
+           
           />
         </Grid>
 
@@ -83,6 +85,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
               value={hotelData.country}
               onChange={handleInputChange}
               name="country"
+      
             >
               {countries.map((country, index) => (
                 <MenuItem key={index} value={country}>
@@ -100,6 +103,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="address"
             fullWidth
+           
           />
         </Grid>
 
@@ -109,6 +113,7 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             <Select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
+              
             >
               <MenuItem value="">
                 <em>None</em>
