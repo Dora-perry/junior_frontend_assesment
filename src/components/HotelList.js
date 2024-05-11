@@ -9,16 +9,25 @@ import {
   Typography,
   Grid,
   Box,
+  TextField,
+  ListItemIcon,
+  IconButton,
+  ListItemText,
 } from "@mui/material";
 import { deleteHotel } from "../features/hotelsSlice";
 import { editHotel } from "../features/hotelsSlice";
 import { addHotel } from "../features/hotelsSlice";
+import { addCategory } from "../features/categoriesSlice";
+import {removeCategor} from "../features/categoriesSlice";
+import {updateCategory} from "../features/categoriesSlice";
 import HotelForm from "./HotelForm";
 import HotelCard from "./HotelCard";
 import Modal from "./Modal";
 import emptyData from "../assets/images/empty.png";
 import { Snackbar, Alert } from "@mui/material";
-import fitting from '../assets/images/undraw_Fitting.png'
+import fitting from "../assets/images/undraw_Fitting.png";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function HotelList() {
   const dispatch = useDispatch();
@@ -27,6 +36,8 @@ function HotelList() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [currentHotel, setCurrentHotel] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState({ id: '', name: '' });
+  const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -35,6 +46,8 @@ function HotelList() {
     ? hotels.filter((hotel) => hotel.category === selectedCategory)
     : hotels;
   console.log("hotel...", hotels);
+
+  console.log("-----", categories);
 
   const handleEdit = (hotel) => {
     setCurrentHotel(hotel);
@@ -61,10 +74,27 @@ function HotelList() {
     });
     setAddModalOpen(true);
   };
+
+  const handleOpenCategoryModal = () => {
+    setCurrentCategory({ name: '' }); 
+    setCategoryModalOpen(true);
+  };
   const handleSaveNewHotel = (hotelData) => {
     dispatch(addHotel(hotelData));
     handleSnackbarOpen("Hotel created successfully!");
     setAddModalOpen(false);
+  };
+
+  const handleSaveCategory = (event) => {
+    event.preventDefault();
+    dispatch(addCategory(currentCategory));
+    handleSnackbarOpen("Category created successfully!");
+    // categories()
+  }
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setCurrentCategory((prevCategory) => ({ ...prevCategory, [name]: value }));
   };
 
   const handleSnackbarOpen = (message) => {
@@ -76,6 +106,10 @@ function HotelList() {
     setSnackbarOpen(false);
   };
 
+  const handleEditCategory = () => {};
+
+  const handleDeleteCategory = () => {};
+
   return (
     <>
       {hotels.length > 0 && (
@@ -85,17 +119,44 @@ function HotelList() {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              padding: "20px 0",
+            }}
+          >
             <Button
               variant="contained"
               color="primary"
               onClick={handleOpenAddModal}
-              style={{ margin: "20px 0" }}
               size="large"
+              sx={{ flexGrow: 1, mr: 1 }}
             >
               Add Hotel
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{
+                flexGrow: 1,
+                backgroundColor: "transparent",
+                color: "primary.main",
+                "&:hover": {
+                  backgroundColor: "primary.main",
+                  color: "common.white",
+                },
+              }}
+              onClick={handleOpenCategoryModal}
+            >
+              Add Category
+            </Button>
           </Grid>
+
           <Grid item xs={12} sm={6} md={4}>
             <FormControl fullWidth>
               <InputLabel id="categ">Filter by Category</InputLabel>
@@ -158,32 +219,30 @@ function HotelList() {
               </Box>
             </Grid>
           ) : (
-            <Grid item xs={12} sx={{ textAlign: "center",}}>
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
               <img
-                  src={fitting}
-                  alt="No data"
-                  style={{ width: 200, marginBottom: 8 }}
-                />
+                src={fitting}
+                alt="No data"
+                style={{ width: 200, marginBottom: 8 }}
+              />
               <Typography
                 variant="h6"
                 style={{
-                 
                   color: "gray",
                   marginTop: "10px",
-
                 }}
               >
                 No hotels available. Please add a new hotel.
               </Typography>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleOpenAddModal}
-              style={{ margin: "20px 0" }}
-              size="large"
-            >
-              Add Hotel
-            </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleOpenAddModal}
+                style={{ margin: "20px 0" }}
+                size="large"
+              >
+                Add Hotel
+              </Button>
             </Grid>
           )}
         </Grid>
@@ -207,6 +266,66 @@ function HotelList() {
         title="Add New Hotel"
       >
         <HotelForm onSave={handleSaveNewHotel} initialHotelData={{}} />
+      </Modal>
+      <Modal
+        open={categoryModalOpen}
+        onClose={() => setCategoryModalOpen(false)}
+        title="Add Category"
+      >
+        <form onSubmit={handleSaveCategory}>
+          <Grid container spacing={2}>
+            <TextField
+              label="Name"
+              value={currentCategory.name}
+              onChange={handleInputChange}
+              name="name"
+              fullWidth
+              required
+            />
+            <Grid
+              item
+              xs={12}
+              md={12}
+              textAlign={{ xs: "center", sm: "right" }}
+            >
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth={{ xs: true, sm: false, md: false, lg: false }}
+                sx={{ width: { sm: "auto", md: "auto" } }}
+                size="lg"
+              >
+                save
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+        {categories.map((category, index) => (
+          <MenuItem key={index} value={category.name}>
+            <ListItemText>{category.name}</ListItemText>
+            <ListItemIcon>
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  handleEditCategory(category);
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </ListItemIcon>
+            <ListItemIcon>
+              <IconButton
+                onClick={(e) => {
+                  e.stopPropagation(); 
+                  handleDeleteCategory(category);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItemIcon>
+          </MenuItem>
+        ))}
       </Modal>
       <Snackbar
         open={snackbarOpen}
