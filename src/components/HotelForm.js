@@ -71,7 +71,6 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="name"
             fullWidth
-           
           />
         </Grid>
 
@@ -85,7 +84,6 @@ function HotelForm({ onSave, initialHotelData = {} }) {
               value={hotelData.country}
               onChange={handleInputChange}
               name="country"
-      
             >
               {countries.map((country, index) => (
                 <MenuItem key={index} value={country}>
@@ -103,7 +101,6 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             onChange={handleInputChange}
             name="address"
             fullWidth
-           
           />
         </Grid>
 
@@ -113,7 +110,6 @@ function HotelForm({ onSave, initialHotelData = {} }) {
             <Select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              
             >
               <MenuItem value="">
                 <em>All</em>
@@ -127,8 +123,14 @@ function HotelForm({ onSave, initialHotelData = {} }) {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} textAlign="right">
-          <Button type="submit" color="primary" variant="contained">
+        <Grid item xs={12} md={12} textAlign={{ xs: "center", sm: "right" }}>
+          <Button
+            type="submit"
+            color="primary"
+            variant="contained"
+            fullWidth={{ xs: true, sm: false, md: false, lg: false }}
+            sx={{ width: { sm: "auto", md: "auto" } }}
+          >
             {buttonText}
           </Button>
         </Grid>
