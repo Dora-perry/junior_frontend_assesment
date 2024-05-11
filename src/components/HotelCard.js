@@ -8,16 +8,21 @@ import {
 
 const HotelCard = ({ hotel, onEdit, onDelete }) => {
   return (
-    <Card raised>
+    <Card style={{ border: "1px solid #ccc", borderRadius: "10px" }}>
       <CardContent>
-        <Typography variant="h5" component="h2">
-         Name:  {hotel.name}
+        <Typography >
+          <span style={{ fontWeight: "bold" }}>Name:</span> {hotel.name}
         </Typography>
-        <Typography color="textSecondary">Country: {hotel.country}</Typography>
-        <Typography variant="body2" component="p">
-          Address: {hotel.address}
-          <br />
-          Category: {hotel.category}
+        <Typography>
+          {" "}
+          <span style={{ fontWeight: "bold" }}>Country:</span> {hotel.country}
+        </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>Address:</span>
+          {hotel.address}
+        </Typography>
+        <Typography>
+          <span style={{ fontWeight: "bold" }}>Category:</span> {hotel.category}
         </Typography>
       </CardContent>
       <CardActions style={{ justifyContent: "space-between" }}>
