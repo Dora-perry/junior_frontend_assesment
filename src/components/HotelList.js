@@ -94,6 +94,7 @@ function HotelList() {
       dispatch(addCategory(currentCategory));
       handleSnackbarOpen("Category created successfully!");
     }
+    setCurrentCategory({ id: "", name: "" });
   };
 
   const handleDeleteCategory = (category) => {
@@ -164,7 +165,7 @@ function HotelList() {
               }}
               onClick={handleOpenCategoryModal}
             >
-              Add Category
+              Create Category
             </Button>
           </Grid>
 
@@ -281,8 +282,9 @@ function HotelList() {
       <Modal
         open={categoryModalOpen}
         onClose={() => setCategoryModalOpen(false)}
-        title="Add Category"
+        title="Add Custom Category"
       >
+        <Grid item xs={12} height={10} />
         <form onSubmit={handleAddCategory}>
           <Grid container spacing={2}>
             <TextField
@@ -315,21 +317,29 @@ function HotelList() {
         {categories.map((category) => (
           <MenuItem key={category.id} value={category.name}>
             <ListItemText>{category.name}</ListItemText>
-            <ListItemIcon>
-              <IconButton
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handleEditCategory(category);
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-            </ListItemIcon>
-            <ListItemIcon>
-              <IconButton onClick={() => handleDeleteCategory(category)}>
-                <DeleteIcon />
-              </IconButton>
-            </ListItemIcon>
+            {!category.isDefault && (
+              <>
+                <ListItemIcon>
+                  <IconButton
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleEditCategory(category);
+                    }}
+                    edge="end"
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </ListItemIcon>
+                <ListItemIcon>
+                  <IconButton
+                    onClick={() => handleDeleteCategory(category)}
+                    edge="end"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </ListItemIcon>
+              </>
+            )}
           </MenuItem>
         ))}
       </Modal>

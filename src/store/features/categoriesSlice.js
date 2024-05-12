@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   categories: [
-    { id: 1, name: "1 Star" },
-    { id: 2, name: "2 Star" },
-    { id: 3, name: "3 Star" },
+    { id: 1, name: "1 Star", isDefault: true },
+    { id: 2, name: "2 Star", isDefault: true },
+    { id: 3, name: "3 Star", isDefault: true },
   ],
 };
 
