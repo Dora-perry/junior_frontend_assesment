@@ -14,12 +14,12 @@ import {
   IconButton,
   ListItemText,
 } from "@mui/material";
-import { deleteHotel } from "../features/hotelsSlice";
-import { editHotel } from "../features/hotelsSlice";
-import { addHotel } from "../features/hotelsSlice";
-import { addCategory } from "../features/categoriesSlice";
-import {removeCategor} from "../features/categoriesSlice";
-import {updateCategory} from "../features/categoriesSlice";
+import { deleteHotel } from "../store/features/hotelsSlice";
+import { editHotel } from "../store/features/hotelsSlice";
+import { addHotel } from "../store/features/hotelsSlice";
+import { addCategory } from "../store/features/categoriesSlice";
+import { removeCategory } from "../store/features/categoriesSlice";
+import { updateCategory } from "../store/features/categoriesSlice";
 import HotelForm from "./HotelForm";
 import HotelCard from "./HotelCard";
 import Modal from "./Modal";
@@ -36,7 +36,7 @@ function HotelList() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [currentHotel, setCurrentHotel] = useState(null);
-  const [currentCategory, setCurrentCategory] = useState({ id: '', name: '' });
+  const [currentCategory, setCurrentCategory] = useState({ id: "", name: "" });
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -45,9 +45,6 @@ function HotelList() {
   const filteredHotels = selectedCategory
     ? hotels.filter((hotel) => hotel.category === selectedCategory)
     : hotels;
-  console.log("hotel...", hotels);
-
-  console.log("-----", categories);
 
   const handleEdit = (hotel) => {
     setCurrentHotel(hotel);
@@ -76,7 +73,7 @@ function HotelList() {
   };
 
   const handleOpenCategoryModal = () => {
-    setCurrentCategory({ name: '' }); 
+    setCurrentCategory({ name: "" });
     setCategoryModalOpen(true);
   };
   const handleSaveNewHotel = (hotelData) => {
@@ -85,12 +82,30 @@ function HotelList() {
     setAddModalOpen(false);
   };
 
-  const handleSaveCategory = (event) => {
+  const handleAddCategory = (event) => {
     event.preventDefault();
-    dispatch(addCategory(currentCategory));
-    handleSnackbarOpen("Category created successfully!");
-    // categories()
-  }
+
+    console.log("Current Category before update:", currentCategory);
+
+    if (currentCategory.id) {
+      dispatch(updateCategory(currentCategory));
+      handleSnackbarOpen("Category updated successfully!");
+    } else {
+      dispatch(addCategory(currentCategory));
+      handleSnackbarOpen("Category created successfully!");
+    }
+  };
+
+  const handleDeleteCategory = (category) => {
+    dispatch(removeCategory(category));
+    handleSnackbarOpen("Category deleted successfully!");
+  };
+
+  const handleEditCategory = (category) => {
+    console.log(category, "this is it");
+    setCurrentCategory(category);
+    setCategoryModalOpen(true);
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -105,10 +120,6 @@ function HotelList() {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
-
-  const handleEditCategory = () => {};
-
-  const handleDeleteCategory = () => {};
 
   return (
     <>
@@ -272,7 +283,7 @@ function HotelList() {
         onClose={() => setCategoryModalOpen(false)}
         title="Add Category"
       >
-        <form onSubmit={handleSaveCategory}>
+        <form onSubmit={handleAddCategory}>
           <Grid container spacing={2}>
             <TextField
               label="Name"
@@ -301,13 +312,13 @@ function HotelList() {
             </Grid>
           </Grid>
         </form>
-        {categories.map((category, index) => (
-          <MenuItem key={index} value={category.name}>
+        {categories.map((category) => (
+          <MenuItem key={category.id} value={category.name}>
             <ListItemText>{category.name}</ListItemText>
             <ListItemIcon>
               <IconButton
-                onClick={(e) => {
-                  e.stopPropagation(); 
+                onClick={(event) => {
+                  event.stopPropagation();
                   handleEditCategory(category);
                 }}
               >
@@ -315,12 +326,7 @@ function HotelList() {
               </IconButton>
             </ListItemIcon>
             <ListItemIcon>
-              <IconButton
-                onClick={(e) => {
-                  e.stopPropagation(); 
-                  handleDeleteCategory(category);
-                }}
-              >
+              <IconButton onClick={() => handleDeleteCategory(category)}>
                 <DeleteIcon />
               </IconButton>
             </ListItemIcon>

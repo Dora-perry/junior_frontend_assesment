@@ -22,14 +22,18 @@ const categoriesSlice = createSlice({
     },
     removeCategory(state, action) {
       state.categories = state.categories.filter(
-        (category) => category !== action.payload
+        (category) => category.id !== action.payload.id
       );
     },
     updateCategory(state, action) {
-      const { oldCategory, newCategory } = action.payload;
-      const index = state.categories.indexOf(oldCategory);
+      const index = state.categories.findIndex(
+        (category) => category.id === action.payload.id
+      );
       if (index !== -1) {
-        state.categories[index] = newCategory;
+        state.categories[index] = {
+          ...state.categories[index],
+          ...action.payload,
+        };
       }
     },
   },

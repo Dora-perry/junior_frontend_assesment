@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import hotelsReducer from "../features/hotelsSlice";
-import categoriesReducer from "../features/categoriesSlice";
+import hotelsReducer from "../store/features/hotelsSlice";
+import categoriesReducer from "../store/features/categoriesSlice";
 
 const loadState = () => {
   try {
